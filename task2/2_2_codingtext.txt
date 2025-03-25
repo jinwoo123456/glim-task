@@ -1,0 +1,39 @@
+#include <iostream>  
+#include <string>  
+#include <vector>  
+using namespace std;  
+
+
+
+int solution(vector<vector<int>> board, int k) {
+    int answer = 0;
+    // size 함수로 행,열 배열 길이 선언
+	int rows = board.size();
+	int cols = board[0].size();
+    
+    //행마다 열에 해당하는 값들을 순회
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            // 조건에 맞으면 answer에 누적
+            if (i + j <= k) {
+                answer += board[i][j];
+            }
+        }
+    }
+    return answer;
+}
+
+int main() {
+
+    // 동적배열로 변경 
+    vector<vector<int>> board = {
+        {0, 1, 2},
+        {1, 2, 3},
+        {2, 3, 4},
+        {3, 4, 5}
+    };
+    int k = 2;
+    // 행 지정 삭제
+    cout << solution(board, k) << endl;  
+    return 0;
+}

@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+
+/*
+n : 양꼬치 : 12000원
+k : 음료수 : 2000원
+*/
+int solution(int n, int k) {
+    int answer = 0;
+	// 서비스 구하기
+	int freeK = n / 10;
+	//cout << freeK << endl;
+    
+    // (양꼬치값 * 갯수)+ ((음료수갯수 - 서비스) * 가격)
+    answer =  n * 12000 + (k - freeK) * 2000;
+    return answer;
+}
+int main() {
+    cout << solution(10, 30) << endl;
+
+}

@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int solution(int a, int b, int c, int d) {
+    vector<int> dice = { a, b, c, d };
+    vector<int> cnt(7, 0); // 주사위 1~6 카운트용
+
+    for (int num : dice)
+        cnt[num]++; // 주사위 숫자 나온 횟수
+
+    // 모두 같은 경우
+    for (int num = 1; num <= 6; num++) {
+        if (cnt[num] == 4)
+            return 1111 * num;
+    }
+
+    // 하나가 다른 경우
+    for (int num = 1; num <= 6; num++) {
+        if (cnt[num] == 3) {
+            int p = num;
+            int q = 0;
+            for (int j = 1; j <= 6; j++) {
+                if (j != num && cnt[j] == 1) {
+                    q = j;
+                    break;
+                }
+            }
+            return (10 * p + q) * (10 * p + q);
+        }
+    }
+
+    vector<int> sameTwice;
+    for (int num = 1; num <= 6; num++) {
+        if (cnt[num] == 2)
+            sameTwice.push_back(num);
+    }
+    // 두 쌍 찾기
+    if (sameTwice.size() == 2) {
+        int p = sameTwice[0];
+        int q = sameTwice[1];
+
+        return (p + q) * abs(p - q); // p + q + | p-q |
+    }
+
+    // 4. 한 쌍 찾기
+    for (int num = 1; num <= 6; num++) {
+        if (cnt[num] == 2) {
+            int p = num;
+            vector<int> sameOne;
+            for (int j = 1; j <= 6; j++) {
+                if (j != p && cnt[j] == 1)
+                    sameOne.push_back(j);
+            }
+            if (sameOne.size() == 2)
+                return sameOne[0] * sameOne[1];
+        }
+    }
+
+    // 최솟값 찾기
+    int notPair = dice[0];
+    for (int i = 0; i < dice.size(); i++) {
+        if (dice[i] < notPair) {
+            notPair = dice[i];
+        }
+    }
+    return notPair;
+}
+
+int main() {
+    cout << solution(2, 2, 2, 2) << endl;  
+    cout << solution(4, 1, 4, 4) << endl;
+    cout << solution(6, 3, 3, 6) << endl;
+    cout << solution(6, 4, 2, 5) << endl;
+   
+    return 0;
+}
